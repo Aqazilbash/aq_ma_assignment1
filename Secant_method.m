@@ -1,4 +1,8 @@
-function [root] = Secant_method(guess1, guess2, A_thresh, B_thresh, test_func)
+function [root] = Secant_method(guess1, guess2, A_thresh, B_thresh, fun)
+
+% defines function 
+test_func = fun{1};
+
 % finds root using secant method
 x = [guess1 guess2];
 n = 3;

@@ -1,0 +1,34 @@
+function [root] = Newtons_method(xn, testfunc, test_derivative)
+
+while true
+xn1 = xn - testfunc(xn)/test_derivative(xn);
+
+  % Division safeguard
+        if abs(testfunc(xn)) < 1e-14
+            root = xn;
+            return
+        end
+
+        % Newton update
+        xn1 = xn - testfunc(xn) / test_derivative(xn);
+
+        % Early termination
+        if abs(xn1 - xn) < Athresh || abs(fval) < Bthresh
+            root = xn1;
+            return
+        end
+
+        % Update current guess
+        xn = xn1;
+    end
+if(testfunc(xn) == 0)
+    break
+end
+
+if(testfunc(xn) ~= 0)
+    xn = xn1;
+    root = xn;
+    break
+end
+
+end
