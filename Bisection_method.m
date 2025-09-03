@@ -1,4 +1,8 @@
-function [root] = Bisection_method(x_l, x_r, thresh, test_func)
+function [root] = Bisection_method(x_l, x_r, thresh, fun)
+
+% defines function
+test_func = fun{1};
+
 while true
 x_mid = (x_l + x_r) / 2;
 
