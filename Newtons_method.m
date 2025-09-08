@@ -11,7 +11,7 @@ while true
         if abs(test_func(xn)) < 1e-14
             root = xn;
             guesses = [guesses, xn];
-            disp(guesses)
+            %disp(guesses)
             return
         end
 
@@ -22,7 +22,7 @@ while true
         if abs(xn1 - xn) < A_thresh || abs(test_func(xn)) < B_thresh
             root = xn1;
             guesses = [guesses, xn1];
-            disp(guesses);
+            % disp(guesses);
             return
         end
 
@@ -30,5 +30,5 @@ while true
         xn = xn1;
         guesses = [guesses, xn1];
 end
- disp(guesses);
+ %disp(guesses);
 end

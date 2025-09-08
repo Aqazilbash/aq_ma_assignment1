@@ -10,7 +10,7 @@ x_mid = (x_l + x_r) / 2;
 % checks if within thresholds
 if abs(test_func(x_l)) < thresh
     root = x_l;
-    guesses = [guesses, root];
+    guesses = [guesses, x_l];
     break
 end
 if abs(test_func(x_r)) < thresh
@@ -20,8 +20,6 @@ if abs(test_func(x_r)) < thresh
 end 
 if abs(test_func(x_mid)) < thresh
     root = x_mid;
-    guesses = [guesses, root];
-    disp(guesses)
     break
 end
 
@@ -36,6 +34,7 @@ if (test_func(x_l) > 0 && test_func(x_mid) < 0) || (test_func(x_l) < 0 && test_f
 else if (test_func(x_mid) > 0 && test_func(x_r) < 0) || (test_func(x_mid) < 0 && test_func(x_r) > 0)
         x_l = x_mid;
 end 
-guesses = [guesses, x_mid];
+
 end
+
 end
