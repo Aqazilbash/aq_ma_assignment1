@@ -13,8 +13,27 @@ B_t = 10^(-14);
 [ans_secant, secant_guesses] = Secant_method(-10, 20, A_t, B_t, fun);
 [ans_newtons, newton_guesses] = Newtons_method(5, A_t, B_t, fun);
 
+% Plot function
+x = linspace(-15, 40, 100);
+test_func02 = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
 
-% collecting test data
+figure;
+plot(x, test_func02); % plot function
+hold on;
+yline(0, '--r'); 
+
+% Plot roots from different methods (uncomment one at a time to see each)
+%plot(ans_bisection, 0, 'ko', 'MarkerSize', 8, 'DisplayName', 'Bisection Root');
+%plot(ans_newtons, 0, 'go', 'MarkerSize', 8, 'DisplayName', 'Newton Root');
+plot(ans_secant, 0, 'mo', 'MarkerSize', 8, 'DisplayName', 'Secant Root');
+
+legend('Location', 'best');
+xlabel('x');
+ylabel('f(x)');
+grid on;
+hold off;
+
+% Collect test data
 randguess1 = 0;
 randguess2 = 0;
 
@@ -39,29 +58,84 @@ end
 % disp(secant_xnplus1)
 % disp(secant_n)
 
-% calculating errors
+% Calculate errors
 error = [secant_xn] - true_root;
 errorplus1 = [secant_xnplus1] - true_root;
 
-%example for how to generate a log-log plot
+% Filter the error data
+%data points to be used in the regression
+x_regression = []; % e_n
+y_regression = []; % e_{n+1}
+
+% Iterate through the collected data
+for n=1:length(error)
+%if the error is not too big or too small
+%and it was enough iterations into the trial...
+if error(n)>1e-15 && error(n)<1e-2 && errorplus1(n)>1e-14 && errorplus1(n)<1e-2 && secant_n(n)>2
+%then add it to the set of points for regression
+x_regression(end+1) = error(n);
+y_regression(end+1) = errorplus1(n);
+end
+end
+
+% Generate log-log plot of error data
 loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
-
-% Plotting
-x = linspace(-15, 40, 100);
-test_func02 = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
-
-figure;
-plot(x, test_func02); % plot function
 hold on;
-yline(0, '--r'); 
+loglog(x_regression,y_regression,'bo','markerfacecolor','r','markersize',1);
 
-% Plot roots from different methods (uncomment one at a time to see each)
-%plot(ans_bisection, 0, 'ko', 'MarkerSize', 8, 'DisplayName', 'Bisection Root');
-%plot(ans_newtons, 0, 'go', 'MarkerSize', 8, 'DisplayName', 'Newton Root');
-%plot(ans_secant, 0, 'mo', 'MarkerSize', 8, 'DisplayName', 'Secant Root');
+[p,k] = generate_error_fit(x_regression, y_regression);
 
-legend('Location', 'best');
-xlabel('x');
-ylabel('f(x)');
-grid on;
-hold off;
+% Plot fit line
+% Generate x data on a logarithmic range
+fit_line_x = 10.^[-16:.01:1];
+% Compute the corresponding y values
+fit_line_y = k*fit_line_x.^p;
+% Plot on a loglog plot.
+loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
+
+% Call function to approximate derivative (function at the end of the script)
+[p,k] = approximate_derivative(test_func01, true_root);
+
+% Compute the fit line
+% Data points to be used in the regression
+% x_regression -> e_n
+% y_regression -> e_{n+1}
+% p and k are the output coefficients
+function [p,k] = generate_error_fit(x_regression,y_regression)
+%generate Y, X1, and X2
+%note that I use the transpose operator (')
+%to convert the result from a row vector to a column
+%If you are copy-pasting, the ' character may not work correctly
+Y = log(y_regression)';
+X1 = log(x_regression)';
+X2 = ones(length(X1),1);
+%run the regression
+coeff_vec = regress(Y,[X1,X2]);
+%pull out the coefficients from the fit
+p = coeff_vec(1);
+k = exp(coeff_vec(2));
+end
+
+% Implement finite difference approximation for the first and second derivative of a function
+% INPUTS:
+% fun: the mathetmatical function we want to differentiate
+% x: the input value of fun that we want to compute the derivative at
+% OUTPUTS:
+% dfdx: approximation of fun'(x)
+% d2fdx2: approximation of fun''(x)
+function [dfdx,d2fdx2] = approximate_derivative(test_func01,x)
+% Set the step size to be tiny
+delta_x = 1e-6;
+
+% Compute the function at different points near x
+f_left = test_func01(x-delta_x);
+f_0 = test_func01(x);
+f_right = test_func01(x+delta_x);
+
+% Approximate the first derivative
+dfdx = (f_right-f_left)/(2*delta_x);
+% Approximate the second derivative
+d2fdx2 = (f_right-2*f_0+f_left)/(delta_x^2);
+fprintf('dfdx = %.6e\n', dfdx);
+fprintf('d2fdx2 = %.6e\n', d2fdx2);
+end
