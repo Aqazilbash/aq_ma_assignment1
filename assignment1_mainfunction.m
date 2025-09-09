@@ -29,8 +29,8 @@ for i = 1:200
     randguess1 = a + (b - a) * rand();
     randguess2 = a + (b - a) * rand();
     [~, secant_guesses] = Secant_method(randguess1, randguess2, A_t, B_t, fun);
-    secant_xn = [secant_xn, secant_guesses];
-    secant_xnplus1 = secant_xn(2:length(secant_xn));
+    secant_xn = [secant_xn, secant_guesses(1:length(secant_guesses)-1)];
+    secant_xnplus1 = [secant_xnplus1, secant_guesses(2:length(secant_guesses))];
     for j = 1:length(secant_guesses)
         secant_n = [secant_n, i];
     end
@@ -41,7 +41,6 @@ end
 
 % calculating errors
 error = [secant_xn] - true_root;
-error = error(1:length(error)-1)
 errorplus1 = [secant_xnplus1] - true_root;
 
 %example for how to generate a log-log plot
