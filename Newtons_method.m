@@ -1,4 +1,4 @@
-function [root] = Newtons_method(xn, A_thresh, B_thresh, fun)
+function [root, guesses] = Newtons_method(xn, A_thresh, B_thresh, fun)
 
 % Defines function and its derivative
 test_func = fun{1};

@@ -1,4 +1,4 @@
-function [root] = Bisection_method(x_l, x_r, thresh, fun)
+function [root, guesses] = Bisection_method(x_l, x_r, thresh, fun)
 
 % defines function
 test_func = fun{1};
@@ -21,7 +21,7 @@ end
 if abs(test_func(x_mid)) < thresh
     root = x_mid;
     guesses = [guesses, root];
-    disp(guesses)
+    %disp(guesses)
     break
 end
 
