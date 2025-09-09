@@ -1,4 +1,4 @@
-function [root] = Secant_method(guess1, guess2, A_thresh, B_thresh, fun)
+function [root, guesses] = Secant_method(guess1, guess2, A_thresh, B_thresh, fun)
 % defines function 
 test_func = fun{1};
 guesses = [];

@@ -22,30 +22,14 @@ secant_xn = [];
 secant_xnplus1 = [];
 secant_n = [];
 
-true_root = ans_newtons;
-for i = 1:200
-    a = -20; % Lower bound
-    b = 40; % Upper bound
-    randguess1 = a + (b - a) * rand();
-    randguess2 = a + (b - a) * rand();
-    [~, secant_guesses] = Secant_method(randguess1, randguess2, A_t, B_t, fun);
-    secant_xn = [secant_xn, secant_guesses];
-    secant_xnplus1 = secant_xn(2:length(secant_xn));
-    for j = 1:length(secant_guesses)
-        secant_n = [secant_n, i];
-    end
+for i = 1:10
+    randguess1 = rand(-20, 40);
+    ranguess2 = rand(-20, 40);
+    [~, secant_guesses] = Secant_method(randguess1, ranguess2, A_t, B_t, fun);
+    secant_xn = [secant_xn, secant_guesses]
+    secannt_xnplus1 = [secannt_xn]
 end
-% disp(secant_xn)
-% disp(secant_xnplus1)
-% disp(secant_n)
 
-% calculating errors
-error = [secant_xn] - true_root;
-error = error(1:length(error)-1)
-errorplus1 = [secant_xnplus1] - true_root;
-
-%example for how to generate a log-log plot
-loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
 
 % Plotting
 x = linspace(-15, 40, 100);
@@ -57,7 +41,7 @@ hold on;
 yline(0, '--r'); 
 
 % Plot roots from different methods (uncomment one at a time to see each)
-%plot(ans_bisection, 0, 'ko', 'MarkerSize', 8, 'DisplayName', 'Bisection Root');
+plot(ans_bisection, 0, 'ko', 'MarkerSize', 8, 'DisplayName', 'Bisection Root');
 %plot(ans_newtons, 0, 'go', 'MarkerSize', 8, 'DisplayName', 'Newton Root');
 %plot(ans_secant, 0, 'mo', 'MarkerSize', 8, 'DisplayName', 'Secant Root');
 
