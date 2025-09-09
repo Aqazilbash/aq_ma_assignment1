@@ -13,7 +13,7 @@ B_t = 10^(-14);
 [ans_secant, secant_guesses] = Secant_method(-10, 20, A_t, B_t, fun);
 [ans_newtons, newton_guesses] = Newtons_method(5, A_t, B_t, fun);
 
-% Plot function
+% Plotting function
 x = linspace(-15, 40, 100);
 test_func02 = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
 
@@ -78,7 +78,7 @@ y_regression(end+1) = errorplus1(n);
 end
 end
 
-% Generate log-log plot of error data
+% Generate log-log plot
 loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
 hold on;
 loglog(x_regression,y_regression,'bo','markerfacecolor','r','markersize',1);
