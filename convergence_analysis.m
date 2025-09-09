@@ -14,27 +14,24 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     trials_xn = [];
     trials_xnplus1 = [];
     trials_n = [];
-    true_root = fzero(x_guess0);
+    true_root = fzero(fun{1}, x_guess0);
 
 
     for i = 1:length(guess_list1)
 
         if solver_flag == 1
-        
+            [~, guesses] = Bisection_method(guess_list1(i), guess_list2(i), B_t, fun);
         elseif solver_flag == 2
-            
+            [~, guesses] = Newtons_method(guess_list1(i), A_t, B_t, fun);
         elseif solver_flag == 3
-
-            [~, guesses] = Secant_method(guess_list1(i), guess_list2(i), B_t, fun);
-        
-        
+            [~, guesses] = Secant_method(guess_list1(i), guess_list2(i), A_t, B_t, fun);
         elseif solver_flag == 4
         
         end
 
         trials_xn = [trials_xn, guesses(1:length(guesses)-1)];
         trials_xnplus1 = [trials_xnplus1, guesses(2:length(guesses))];
-        trials_n = [trials_n, 1:(length(guesses)-1)]
+        trials_n = [trials_n, 1:(length(guesses)-1)];
         % for j = 1:length(secant_guesses)
         %     trials_n = [trials_n, i];
         % end
@@ -54,7 +51,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     for n=1:length(error)
         %if the error is not too big or too small
         %and it was enough iterations into the trial...
-        if error(n)>1e-15 && error(n)<1e-2 && errorplus1(n)>1e-14 && errorplus1(n)<1e-2 && secant_n(n)>2
+        if error(n)>1e-15 && error(n)<1e-2 && errorplus1(n)>1e-14 && errorplus1(n)<1e-2 && trials_n(n)>2
             %then add it to the set of points for regression
             x_regression(end+1) = error(n);
             y_regression(end+1) = errorplus1(n);
@@ -77,7 +74,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
 
     % Call function to approximate derivative (function at the end of the script)
-    [p,k] = approximate_derivative(test_func01, true_root);
+    [p,k] = approximate_derivative(fun{1}, true_root);
 
 
 end
