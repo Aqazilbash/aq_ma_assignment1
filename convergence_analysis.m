@@ -1,0 +1,54 @@
+%Example template for analysis function
+%INPUTS:
+%solver_flag: an integer from 1-4 indicating which solver to use
+% 1->Bisection 2-> Newton 3->Secant 4->fzero
+%fun: the mathematical function that we are using the
+% solver to compute the root of
+%x_guess0: the initial guess used to compute x_root
+%guess_list1: a list of initial guesses for each trial
+%guess_list2: a second list of initial guesses for each trial
+% if guess_list2 is not needed, then set to zero in input
+%filter_list: a list of constants used to filter the collected data
+function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_list2, filter_list, A_t, B_t)
+
+    trials_xn = [];
+    trials_xnplus1 = [];
+    trials_n = [];
+    true_root = fzero(x_guess0);
+
+
+    for i = 1:length(guess_list1)
+
+
+
+        if solver_flag == 1
+        
+        elseif solver_flag == 2
+            
+        elseif solver_flag == 3
+
+            [~, guesses] = Secant_method(guess_list1(i), guess_list2(i), B_t, fun);
+        
+        
+        elseif solver_flag == 4
+        
+        end
+
+        trials_xn = [trials_xn, guesses(1:length(guesses)-1)];
+        trials_xnplus1 = [trials_xnplus1, guesses(2:length(guesses))];
+        trials_n = [trials_n, 1:(length(guesses)-1)]
+        % for j = 1:length(secant_guesses)
+        %     trials_n = [trials_n, i];
+        % end
+
+    end
+
+
+    % Calculate errors
+    error = [trials_xn] - true_root;
+    errorplus1 = [trials_xnplus1] - true_root;
+
+
+
+    
+end
