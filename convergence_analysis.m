@@ -41,12 +41,11 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     % Calculate errors
     error = [trials_xn] - true_root;
     errorplus1 = [trials_xnplus1] - true_root;
-
     % Filter the error data
     %data points to be used in the regression
     x_regression = []; % e_n
     y_regression = []; % e_{n+1}
-
+    disp(error)
     % Iterate through the collected data
     for n=1:length(error)
         %if the error is not too big or too small
@@ -57,12 +56,11 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
             y_regression(end+1) = errorplus1(n);
         end
     end
-
+    disp(length(x_regression))
     % Generate log-log plot of error data
     loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
     hold on;
     loglog(x_regression,y_regression,'bo','markerfacecolor','r','markersize',1);
-
     [p,k] = generate_error_fit(x_regression, y_regression);
 
     % Plot fit line
