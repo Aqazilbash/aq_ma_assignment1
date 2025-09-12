@@ -11,19 +11,19 @@ B_t = 10^(-14);
 guess_list1 = [];
 guess_list2 = [];
 for i = 1:200
-    a = -20; % Lower bound
-    b = 40; % Upper bound
+    a = -30; % Lower bound
+    b = 30; % Upper bound
     randguess1 = a + (b - a) * rand();
     randguess2 = a + (b - a) * rand();
     guess_list1 = [guess_list1, randguess1];
     guess_list2 = [guess_list2, randguess2];
 end
 
-convergence_analysis(2, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
+convergence_analysis(4, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
 % Queries solver functions to find the root
-% [ans_bisection, bisection_guesses] = Bisection_method(-10, 20, B_t, fun);
+%[ans_bisection, bisection_guesses] = Bisection_method(-10, 20, B_t, fun);
 % [ans_secant, secant_guesses] = Secant_method(-10, 20, A_t, B_t, fun);
-% [ans_newtons, newton_guesses] = Newtons_method(5, A_t, B_t, fun);
+%[ans_newtons, newton_guesses] = Newtons_method(30, A_t, B_t, fun);
 
 % Plot function
 % x = linspace(-15, 40, 100);

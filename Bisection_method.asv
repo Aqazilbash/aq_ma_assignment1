@@ -4,19 +4,7 @@ function [root, guesses] = Bisection_method(x_l, x_r, thresh, fun)
 test_func = fun{1};
 guesses = [];
 
-% flip x_l and x_r if in wrong order
-if (x_l >= x_r)
-    temp = x_l;
-    x_l = x_r;
-    x_r = temp;
-end
-
-% bisection safeguard: terminates if initial guesses don't contain crossing
-if (test_func(x_l) < 0 && test_func(x_r) < 0) || (test_func(x_l) > 0 && test_func(x_r) > 0)
-    root = NaN;
-    return
-end
-
+if
 while true
 x_mid = (x_l + x_r) / 2;
 
@@ -38,6 +26,11 @@ if abs(test_func(x_mid)) < thresh
     break
 end
 
+% bisection safeguard: terminates if initial guesses don't contain crossing
+if (test_func(x_l) < 0 && test_func(x_r) < 0) || (test_func(x_l) > 0 && test_func(x_r) > 0)
+    root = NaN;
+    break
+end
 
 
 if (test_func(x_l) > 0 && test_func(x_mid) < 0) || (test_func(x_l) < 0 && test_func(x_mid) > 0)

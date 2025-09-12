@@ -26,7 +26,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
         elseif solver_flag == 3
             [~, guesses] = Secant_method(guess_list1(i), guess_list2(i), A_t, B_t, fun);
         elseif solver_flag == 4
-        
+            [~, guesses] = track_fzero(fun, guess_list1(i));
         end
 
         trials_xn = [trials_xn, guesses(1:length(guesses)-1)];
@@ -37,16 +37,15 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
         % end
 
     end
-
     % Calculate errors
-    error = [trials_xn] - true_root;
-    errorplus1 = [trials_xnplus1] - true_root;
+    error = abs([trials_xn] - true_root);
+    errorplus1 = abs([trials_xnplus1] - true_root);
     % Filter the error data
     %data points to be used in the regression
     x_regression = []; % e_n
     y_regression = []; % e_{n+1}
-    disp(error)
     % Iterate through the collected data
+    loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
     for n=1:length(error)
         %if the error is not too big or too small
         %and it was enough iterations into the trial...
@@ -56,7 +55,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
             y_regression(end+1) = errorplus1(n);
         end
     end
-    disp(length(x_regression))
+    
     % Generate log-log plot of error data
     loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
     hold on;
@@ -73,10 +72,9 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
 
     % Call function to approximate derivative (function at the end of the script)
     [p,k] = approximate_derivative(fun{1}, true_root);
-
+    
 
 end
-
 % Compute the fit line
 % Data points to be used in the regression
 % x_regression -> e_n
