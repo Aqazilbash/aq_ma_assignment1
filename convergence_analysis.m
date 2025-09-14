@@ -69,9 +69,14 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     fit_line_y = k*fit_line_x.^p;
     % Plot on a loglog plot.
     loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
-
+    fprintf('experimental p = %.6e\n', p);
+    fprintf('experimental k = %.6e\n', k);
     % Call function to approximate derivative (function at the end of the script)
-    [p,k] = approximate_derivative(fun{1}, true_root);
+    [dfdx,d2fdx2] = approximate_derivative(fun{1}, true_root);
+    k = abs( 0.5 * (d2fdx2/dfdx));
+    fprintf('theoretical k = %.6e\n', p);
+
+
     
 
 end
