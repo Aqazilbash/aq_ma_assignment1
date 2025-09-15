@@ -83,12 +83,13 @@ end
 % y_regression -> e_{n+1}
 % p and k are the output coefficients
 function [p,k] = generate_error_fit(x_regression,y_regression)
+
 %generate Y, X1, and X2
 %note that I use the transpose operator (')
 %to convert the result from a row vector to a column
 %If you are copy-pasting, the ' character may not work correctly
-Y = log(y_regression)';
-X1 = log(x_regression)';
+Y = log(y_regression(:));
+X1 = log(x_regression(:));
 X2 = ones(length(X1),1);
 %run the regression
 coeff_vec = regress(Y,[X1,X2]);
@@ -120,3 +121,17 @@ d2fdx2 = (f_right-2*f_0+f_left)/(delta_x^2);
 fprintf('dfdx = %.6e\n', dfdx);
 fprintf('d2fdx2 = %.6e\n', d2fdx2);
 end
+
+
+function [f_val,dfdx] = test_function03(x)
+global input_list;
+input_list(:,end+1) = x;
+a = 27.3; b = 2; c = 8.3; d = -3;
+H = exp((x-a)/b);
+dH = H/b;
+L = 1+H;
+dL = dH;
+f_val = c*H./L+d;
+dfdx = c*(L.*dH-H.*dL)./(L.^2);
+end
+
