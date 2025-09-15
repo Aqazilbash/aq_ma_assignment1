@@ -19,21 +19,21 @@ for i = 1:200
     guess_list2 = [guess_list2, randguess2];
 end
 
-convergence_analysis(2, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
+convergence_analysis(1, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
 
-a = linspace(0, 50, 100);
-f = zeros(size(a));
-derivative = zeros(size(a));
-disp(derivative)
-
-for i = 1:length(a)
-    [f(i), derivative(i)] = test_function03(a(i));
-end
-figure;
-plot(a, f, 'b-', 'LineWidth', 2);
-hold on;
-yline(0);
-hold on;
+% a = linspace(0, 50, 100);
+% f = zeros(size(a));
+% derivative = zeros(size(a));
+% disp(derivative)
+% 
+% for i = 1:length(a)
+%     [f(i), derivative(i)] = test_function03(a(i));
+% end
+% figure;
+% plot(a, f, 'b-', 'LineWidth', 2);
+% hold on;
+% yline(0);
+% hold on;
 
 % Queries solver functions to find the root
 % [ans_bisection, bisection_guesses] = Bisection_method(-10, 20, B_t, fun);

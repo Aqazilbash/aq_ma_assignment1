@@ -58,6 +58,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     end
     disp(length(x_regression))
     % Generate log-log plot of error data
+    figure();
     loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
     hold on;
     loglog(x_regression,y_regression,'bo','markerfacecolor','r','markersize',1);
