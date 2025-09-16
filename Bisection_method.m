@@ -11,6 +11,7 @@ function [root, guesses] = Bisection_method(x_l, x_r, thresh, fun)
         x_r = temp;
     end
     
+    %disp(test_func(x_l))
     % bisection safeguard: terminates if initial guesses don't contain crossing
     if (test_func(x_l) < 0 && test_func(x_r) < 0) || (test_func(x_l) > 0 && test_func(x_r) > 0)
         root = NaN;
