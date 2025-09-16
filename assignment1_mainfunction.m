@@ -63,6 +63,7 @@ end
     success_fvals(end+1) = f_handle(success_guesses(i));
  end
  plot(success_guesses, success_fvals, "r-", "LineWidth", 2)
+ legend("Will not converge", "Will converge")
 % yline(0);
 % hold on;
 
