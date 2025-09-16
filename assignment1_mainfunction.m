@@ -23,7 +23,7 @@ end
 
 
 a = linspace(0, 50, 100);
-f = zeros(size(a));
+f_vals = zeros(size(a));
 derivative = zeros(size(a));
 
 f  = @(x) test_function03(x);        % full call, but returns [f_val, dfdx]
@@ -39,13 +39,12 @@ success_guesses = [];
 failure_guesses = [];
 for i = 1:length(a)
     [root_maybe, guesses] = Newtons_method(a(i), A_t, B_t, func_handles);
-    if root_maybe = NaN
-        failure_guesses(end+1) = i(a);
+    if isnan(root_maybe)
+        failure_guesses(end+1) = a(i);
     else 
-        success_guesses(end+1) = i(a);
+        success_guesses(end+1) = a(i);
     end
 end
-
 
 
 % helper wrapper that extracts 2nd output
@@ -53,14 +52,19 @@ function d = select_dfdx(x)
     [~, d] = test_function03(x);
 end
 
-
-% for i = 1:length(a)
-%     [f(i), derivative(i)] = test_function03(a(i));
-% end
-% figure;
-% plot(a, f, 'b-', 'LineWidth', 2);
-% hold on;
+for i = 1:length(a)
+     [f_vals(i), derivative(i)] = test_function03(a(i));
+end
+ figure;
+ plot(a, f_vals, 'b-', 'LineWidth', 2);
+ hold on;
+ success_fvals = []
+ for i = 1:length(success_guesses)
+    success_fvals(end+1) = f_handle(success_guesses(i));
+ end
+ plot(success_guesses, success_fvals, "r-", "LineWidth", 2)
 % yline(0);
 % hold on;
 
 %for i = length(a):
+
