@@ -31,7 +31,7 @@ while true
         guesses = [guesses, xn1];
 
         if (length(guesses) > 500)
-            root = NaN;
-            return
-        end
+            xn 
+end
+disp(guesses);
 end

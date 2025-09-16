@@ -40,10 +40,9 @@ failure_guesses = [];
 for i = 1:length(a)
     [root_maybe, guesses] = Newtons_method(a(i), A_t, B_t, func_handles);
     if root_maybe = NaN
-        failure_guesses(end+1) = i(a);
-    else 
-        success_guesses(end+1) = i(a);
-    end
+        failure_guesses[end+1] = i(a)
+else 
+    
 end
 
 
