@@ -40,8 +40,8 @@ function [xmin, xmax, ymin, ymax] = bounding_box(x0, y0, A_t, B_t, theta, egg_pa
     %plot(x_egg, y_egg, '-')
     %axis equal
 
-    xmin = V_left(1);
-    xmax = V_right(1);
-    ymin = V_bottom(2);
-    ymax = V_top(2);
+    xmin = V_left;
+    xmax = V_right;
+    ymin = V_bottom;
+    ymax = V_top;
 end

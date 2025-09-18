@@ -23,11 +23,11 @@ func_handles_x = {Gx_handle, Vx_handle};
 
 func_handles_y = {Gy_handle, Vy_handle};
 
-Gx_vals = [];
-for i = linspace(0,1,100)
-    [Vx, Gx] = x_wrapper(i,x0,y0,theta,egg_params);
-    Gx_vals(end+1) = Gx;
-end
+% Gx_vals = [];
+% for i = linspace(0,1,100)
+%     [Vx, Gx] = x_wrapper(i,x0,y0,theta,egg_params);
+%     Gx_vals(end+1) = Gx;
+% end
 
 
 % % Iterate through Secant method with guesses ranging from 0 to 1 to extract
@@ -78,8 +78,8 @@ end
 
 time = 0;
 y_ground = 0;
-x_wall = 0;
-[tground, twall] = collision_func(@egg_trajectory01, time, egg_params, y_ground, x_wall);
+x_wall = 30;
+[tground, twall] = collision_func(@egg_trajectory01, time, egg_params, y_ground, x_wall, func_handles_x, func_handles_y, A_t, B_t);
 
 % helper wrapper that extracts 2nd output
 function Gx = select_Gx(s, x0,y0,theta,egg_params)

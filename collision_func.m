@@ -8,7 +8,7 @@
 %OUTPUTS:
 %t_ground: time that the egg would hit the ground
 %t_wall: time that the egg would hit the wall
-function [t_ground,t_wall] = collision_func(traj_func, t, egg_params, y_ground, x_wall, func_handles_x, func_handles_y)
+function [t_ground,t_wall] = collision_func(traj_func, t, egg_params, y_ground, x_wall, func_handles_x, func_handles_y, A_t, B_t)
 %Pseudocode:
 % Create function that maps time to xegg, yegg, and thetaegg I.e. xegg(t), yegg(t), thetaegg(t)
 % Solve for new s positions based on these and the points used to draw the
@@ -19,29 +19,31 @@ function [t_ground,t_wall] = collision_func(traj_func, t, egg_params, y_ground, 
 
 t_ground = 0;
     t_wall = 0;
-    step_size = 0.001;
-[y_min] = egg_wrapper_max_y(t_ground, traj_func, egg_params);
+    step_size = 0.005;
+[y_min] = egg_wrapper_max_y(t_ground, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
 
     while y_min > y_ground
+        disp(y_min)
         t_ground = t_ground + step_size;
-        [y_min] = egg_wrapper_max_y(t_ground, traj_func, egg_params);
+        [y_min] = egg_wrapper_max_y(t_ground, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
     end
 
-[x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y);
-    while x_max > x_wall
+[x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
+    while x_max < x_wall
         t_wall = t_wall + step_size;
-        [x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y);
+        [x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
     end
 
 end
 
 
-    function [x_max] = egg_wrapper_max_x(t, traj_func, egg_params)
+    function [x_max] = egg_wrapper_max_x(t, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t)
         [x0_t,y0_t,theta_t] = traj_func(t);
-        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, theta_t, egg_params, func_handles_x, func_handles_y);
+        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, func_handles_x, func_handles_y);
     end
 
-    function [y_min] = egg_wrapper_max_y(t, traj_func, egg_params)
+    function [y_min] = egg_wrapper_max_y(t, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t)
         [x0_t,y0_t,theta_t] = traj_func(t);
-        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, theta_t, egg_params, func_handles_x, func_handles_y);
+        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, func_handles_x, func_handles_y);
+        disp(y_min)
     end
