@@ -1,4 +1,4 @@
-function eggplot(s, x0, y0, theta, egg_params)
+function [V_single, G_single] = eggplot(s, x0, y0, theta, egg_params)
 %set up the axis
 hold on; axis equal; axis square
 axis([0,10,0,10])

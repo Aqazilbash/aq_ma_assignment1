@@ -75,10 +75,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     [dfdx,d2fdx2] = approximate_derivative(fun{1}, true_root);
     k = abs( 0.5 * (d2fdx2/dfdx));
     fprintf('theoretical k = %.6e\n', p);
-
-
     
-
 end
 % Compute the fit line
 % Data points to be used in the regression

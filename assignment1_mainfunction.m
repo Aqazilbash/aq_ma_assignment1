@@ -19,7 +19,7 @@ for i = 1:200
     guess_list2 = [guess_list2, randguess2];
 end
 
-%convergence_analysis(2, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
+convergence_analysis(2, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
 
 
 a = linspace(0, 50, 100);
@@ -64,7 +64,7 @@ end
  end
  plot(success_guesses, success_fvals, "r-", "LineWidth", 2)
  legend("Will not converge", "Will converge")
-% yline(0);
+ yline(0);
 % hold on;
 
 %for i = length(a):

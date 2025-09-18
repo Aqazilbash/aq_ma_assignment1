@@ -1,0 +1,55 @@
+%Function that computes the collision time for a thrown egg
+%INPUTS:
+%traj_fun: a function that describes the [x,y,theta] trajectory
+% of the egg (takes time t as input)
+%egg_params: a struct describing the hyperparameters of the oval
+%y_ground: height of the ground
+%x_wall: position of the wall
+%OUTPUTS:
+%t_ground: time that the egg would hit the ground
+%t_wall: time that the egg would hit the wall
+function [t_ground,t_wall] = collision_func(traj_func, t, egg_params, y_ground, x_wall)
+
+   % egg_bottom_wrapper = @(t_in) egg_bottom_func(t_in, traj_fun, egg_params) - y_ground;
+    %t_ground = Bisection_method(egg_bottom_wrapper, 0, 100, 0.002, 0.002, 200);
+    %egg_top_wrapper = @(t_in) egg_bottom_func(t_in, traj_fun, egg_params) - y_ground;
+    %t_wall = Bisection_method(egg_top_wrapper, 0, 100, 0.002, 0.002, 200);
+
+    t_ground = 0;
+    step_size = 0.001;
+    
+    while y_min > y_ground
+        t_ground = t_ground + step_size;
+        y_min = egg_wrapper_max_y(t_ground, traj_fun, egg_params);
+    end
+
+    while x_max > x_wall
+        t = t + step_size;
+        
+    end
+%Pseudocode:
+% Create function that maps time to xegg, yegg, and thetaegg I.e. xegg(t), yegg(t), thetaegg(t)
+% Solve for new s positions based on these and the points used to draw the
+% bounding box
+% Pass xegg(t), yegg(t), thetaegg(t) and the 4 new s positions to eggfunc,
+% which should return xmin, xmax, ymin, and ymax. Find root of ymin(t) to
+% find the ground time and root of xmax(t) to find the wall time
+
+%t_wall = Secant_method(guess1, guess2, A_thresh, B_thresh, fun);
+%t_ground = Secant_method(guess1, guess2, A_thresh, B_thresh, fun);
+
+% Ignore this
+t_ground = 1;
+t_wall = 0;
+
+end
+
+    function xmax = egg_wrapper_max_x(t, traj_fun, egg_params)
+        [x0_t,y0_t,theta_t] = traj_func(t);
+        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, theta_t, egg_params);
+    end
+
+    function ymin = egg_wrapper_max_y(t, traj_fun, egg_params)
+        [x0_t,y0_t,theta_t] = traj_func(t);
+        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, theta_t, egg_params);
+    end
