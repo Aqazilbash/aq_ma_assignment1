@@ -1,0 +1,1 @@
+egg_animation(egg_params)
