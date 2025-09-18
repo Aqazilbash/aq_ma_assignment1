@@ -29,6 +29,7 @@ for i = linspace(0,1,100)
     Gx_vals(end+1) = Gx;
 end
 
+
 % % Iterate through Secant method with guesses ranging from 0 to 1 to extract
 % % s values at each of the 4 tangent points that help draw the boundary box
 % s_x = [];
@@ -75,9 +76,9 @@ end
 % plot(x_egg, y_egg, '-')
 % axis equal
 
-y_ground = 1;
-x_wall = 2;
-time = 5;
+time = 0;
+y_ground = 0;
+x_wall = 0;
 [tground, twall] = collision_func(@egg_trajectory01, time, egg_params, y_ground, x_wall);
 
 % helper wrapper that extracts 2nd output

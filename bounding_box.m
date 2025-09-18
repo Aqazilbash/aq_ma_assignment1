@@ -1,4 +1,4 @@
-function [xmin, xmax, ymin, ymax] = bounding_box(x0, y0, theta, egg_params)
+function [xmin, xmax, ymin, ymax] = bounding_box(x0, y0, A_t, B_t, theta, egg_params, func_handles_x, func_handles_y)
     % Iterate through Secant method with guesses ranging from 0 to 1 to extract
     % s values at each of the 4 tangent points that help draw the boundary box
     s_x = [];
