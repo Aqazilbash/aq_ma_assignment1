@@ -11,7 +11,6 @@ while true
         if abs(test_func(xn)) < 1e-14
             root = xn;
             guesses = [guesses, root];
-            disp(guesses)
             return
         end
 

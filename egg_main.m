@@ -29,11 +29,18 @@ func_handles_y = {Gy_handle, Vy_handle};
 %     Gx_vals(end+1) = Gx;
 % end
 
+% [x0,y0,theta] = egg_trajectory01(2.85);
+% [V_list, ~] = egg_func(linspace(0,1,100),x0,y0,theta,egg_params);
+% plot(V_list(1,:), V_list(2,:))
+        % Compute position of egg center through time
+
+x0_t = 5; y0_t = 5; theta_t = 0;
+bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, Gx_handle, Gy_handle);
 time = 0;
 y_ground = 0;
 x_wall = 30;
-[tground, twall] = collision_func(@egg_trajectory01, time, egg_params, y_ground, x_wall, func_handles_x, func_handles_y, A_t, B_t);
-egg_animation();
+%[tground, twall] = collision_func(@egg_trajectory01, time, egg_params, y_ground, x_wall, func_handles_x, func_handles_y, A_t, B_t)
+%egg_animation();
 
 % helper wrapper that extracts 2nd output
 function Gx = select_Gx(s, x0,y0,theta,egg_params)

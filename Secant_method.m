@@ -1,8 +1,11 @@
 function [root, guesses] = Secant_method(guess1, guess2, A_thresh, B_thresh, fun)
 % defines function 
-test_func = fun{1};
+if iscell(fun) == 1
+    test_func = fun{1};
+else
+    test_func = fun;
+end
 guesses = [];
-
 % finds root using secant method
 x = [guess1 guess2];
 n = 3;
@@ -20,6 +23,11 @@ end
 if (abs(x(n) - x(n-1)) < A_thresh) || (abs(test_func(x(n))) < B_thresh)
     root = x(n);
     guesses = [guesses, root];
+    break
+end
+
+if isnan(x(n))
+    root = NaN
     break
 end
 

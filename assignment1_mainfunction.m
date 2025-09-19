@@ -1,7 +1,9 @@
 clear all
 % Definition of the test function and its derivative
-test_func01 = @(x) (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
-test_derivative01 = @(x) 3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6;
+%test_func01 = @(x) (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
+%test_derivative01 = @(x) 3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6;
+test_func01 = @(x) (x.^2);
+test_derivative01 = @(x) (2*x);
 fun = {test_func01, test_derivative01};
 
 % Set early termination conditions through threshold values
@@ -19,10 +21,11 @@ for i = 1:200
     guess_list2 = [guess_list2, randguess2];
 end
 
-convergence_analysis(2, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
+convergence_analysis(3, fun, 0.9, guess_list1, guess_list2, [], A_t, B_t)
 
 
 a = linspace(0, 50, 100);
+a2 = a + 0.02;
 f_vals = zeros(size(a));
 derivative = zeros(size(a));
 
@@ -35,10 +38,12 @@ dfdx_handle = @(x) select_dfdx(x);
 
 func_handles = {f_handle,dfdx_handle};
 
+
 success_guesses = [];
 failure_guesses = [];
 for i = 1:length(a)
-    [root_maybe, guesses] = Newtons_method(a(i), A_t, B_t, func_handles);
+    [root_maybe, guesses] = Secant_method(a(i), a2(i), A_t, B_t, func_handles);
+    %[root_maybe] = fzero(f_handle, a(i))
     if isnan(root_maybe)
         failure_guesses(end+1) = a(i);
     else 
@@ -46,11 +51,11 @@ for i = 1:length(a)
     end
 end
 
-
 % helper wrapper that extracts 2nd output
 function d = select_dfdx(x)
     [~, d] = test_function03(x);
 end
+
 
 for i = 1:length(a)
      [f_vals(i), derivative(i)] = test_function03(a(i));
@@ -58,14 +63,12 @@ end
  figure;
  plot(a, f_vals, 'b-', 'LineWidth', 2);
  hold on;
- success_fvals = []
+ success_fvals = [];
  for i = 1:length(success_guesses)
     success_fvals(end+1) = f_handle(success_guesses(i));
  end
  plot(success_guesses, success_fvals, "r-", "LineWidth", 2)
  legend("Will not converge", "Will converge")
  yline(0);
-% hold on;
 
-%for i = length(a):
 

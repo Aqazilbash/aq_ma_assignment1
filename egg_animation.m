@@ -46,8 +46,9 @@ function egg_animation()
     wall = 30;
     ground = 0;
     %twall = 3.375;
-    twall = 2.845;
-    tground = 3.575;
+    twall = 3;
+    %tground = 3.575;
+    tground = 4;
 
     % Set the position and orientation of the egg
     x0 = 5; y0 = 5; theta = pi/6;
@@ -66,19 +67,24 @@ function egg_animation()
     %initialize the current figure and save as object
     %%%fig1 = figure(1);
     %set up the plotting axis
-    for t = 0: .005:twall
+
+    runtime = min(tground, twall);
+
+    for t = 0: .005:runtime
         clf;
          hold on; axis equal; axis square
         axis([0, 40, -5, 40])
-         egg_plot = plot(0, 0, 'k');
+        egg_plot = plot(0, 0, 'k');
+        
         [V_list, ~] = egg_func(linspace(0,1,100),x0,y0,theta,egg_params);
-
         % Compute position of egg center through time
         [x0,y0,theta] = egg_trajectory01(t);
+        A_t = 10^(-14); B_t = 10^(-14);
         yline(ground);
         xline(wall);
         % Update coordinates of egg plot
         set(egg_plot, 'xdata', V_list(1,:), 'ydata', V_list(2,:));
+   
         % Update plotting window
         drawnow;
         %capture a frame (what is currently plotted)

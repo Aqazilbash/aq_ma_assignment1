@@ -19,31 +19,35 @@ function [t_ground,t_wall] = collision_func(traj_func, t, egg_params, y_ground, 
 
 t_ground = 0;
     t_wall = 0;
-    step_size = 0.005;
+    step_size = 0.1;
 [y_min] = egg_wrapper_max_y(t_ground, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
+[x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
+
+    while x_max < x_wall
+        t_wall = t_wall + step_size;
+        disp(x_max)
+        disp(t_wall)
+        [x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
+    end
 
     while y_min > y_ground
-        disp(y_min)
+        %disp(y_min)
         t_ground = t_ground + step_size;
         [y_min] = egg_wrapper_max_y(t_ground, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
     end
 
-[x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
-    while x_max < x_wall
-        t_wall = t_wall + step_size;
-        [x_max] = egg_wrapper_max_x(t_wall, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t);
-    end
 
 end
 
 
     function [x_max] = egg_wrapper_max_x(t, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t)
         [x0_t,y0_t,theta_t] = traj_func(t);
-        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, func_handles_x, func_handles_y);
+        [~, x_max, ~, ~] = bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, func_handles_x, func_handles_y);
+        %(x_max - x_min) * (y_max - y_min)
     end
 
     function [y_min] = egg_wrapper_max_y(t, traj_func, egg_params, func_handles_x, func_handles_y, A_t, B_t)
         [x0_t,y0_t,theta_t] = traj_func(t);
-        [x_min, x_max, y_min, y_max] = bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, func_handles_x, func_handles_y);
-        disp(y_min)
+        [~, ~, y_min, ~] = bounding_box(x0_t, y0_t, A_t, B_t, theta_t, egg_params, func_handles_x, func_handles_y);
+        %disp(y_min)
     end

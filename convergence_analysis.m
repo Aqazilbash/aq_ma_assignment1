@@ -14,7 +14,8 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     trials_xn = [];
     trials_xnplus1 = [];
     trials_n = [];
-    true_root = fzero(fun{1}, x_guess0);
+    %true_root = fzero(fun{1}, x_guess0);
+    true_root = 0;
 
 
     for i = 1:length(guess_list1)
@@ -38,7 +39,7 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
 
     end
     % Calculate errors
-    error = abs([trials_xn] - true_root);
+    error = abs([trials_xn] - true_root)
     errorplus1 = abs([trials_xnplus1] - true_root);
     % Filter the error data
     %data points to be used in the regression
@@ -55,7 +56,6 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
             y_regression(end+1) = errorplus1(n);
         end
     end
-    
     % Generate log-log plot of error data
     loglog(error,errorplus1,'ro','markerfacecolor','r','markersize',1);
     hold on;
@@ -68,14 +68,13 @@ function convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess_lis
     % Compute the corresponding y values
     fit_line_y = k*fit_line_x.^p;
     % Plot on a loglog plot.
-    loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
+    loglog(fit_line_x,fit_line_y,'k-','linewidth',2);
     fprintf('experimental p = %.6e\n', p);
     fprintf('experimental k = %.6e\n', k);
     % Call function to approximate derivative (function at the end of the script)
     [dfdx,d2fdx2] = approximate_derivative(fun{1}, true_root);
     k = abs( 0.5 * (d2fdx2/dfdx));
     fprintf('theoretical k = %.6e\n', p);
-    
 end
 % Compute the fit line
 % Data points to be used in the regression
